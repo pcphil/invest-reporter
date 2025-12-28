@@ -1,23 +1,151 @@
-# invest-reporter
-Agents to provide aggregate info on stock
-\n+## Quickstart
-\n+### 1) Create a virtual environment (Windows)
-```bash
-python -m venv .venv
-.venv\\Scripts\\activate
+# Invest-Reporter
+
+A FastAPI-based service for real-time stock data aggregation using yfinance. This project provides a foundation for building AI agents that analyze financial data and stock information.
+
+## Features
+
+- **Stock Data Retrieval**: Fetch real-time stock information including price, market cap, and company name
+- **Arithmetic Operations**: Basic calculate endpoint for testing
+- **Health Check**: Service status monitoring
+- **FastAPI Framework**: Modern, fast web framework with automatic API documentation
+
+## Project Structure
+
 ```
-\n+### 2) Install dependencies
-```bash
-pip install -r requirements.txt
+invest-reporter/
+├── api.py              # Main FastAPI application
+├── requirements.txt    # Project dependencies
+├── AGENTS.md          # Planned AI agents documentation
+├── README.md          # This file
+├── LICENSE            # Project license
+└── venv/              # Virtual environment
 ```
-\n+### 3) Fetch historical data and save to CSV
+
+## Endpoints
+
+| Endpoint | Method | Purpose | Parameters | Response |
+|----------|--------|---------|-----------|----------|
+| `/health` | GET | Service health check | — | `{"Hello": "World"}` |
+| `/calculate/sum` | GET | Sum two numbers | `a`, `b` (float) | `{"sum": result}` |
+| `/stock/{ticker_symbol}` | GET | Get stock information | `ticker_symbol` (str) | `{"symbol", "shortName", "currentPrice", "marketCap"}` |
+
+## Installation
+
+### Prerequisites
+- Python 3.8+
+- pip
+
+### Setup
+
+1. **Create a virtual environment:**
+   ```bash
+   python -m venv venv
+   ```
+
+2. **Activate the virtual environment:**
+   - Windows:
+     ```bash
+     .\venv\Scripts\activate
+     ```
+   - macOS/Linux:
+     ```bash
+     source venv/bin/activate
+     ```
+
+3. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+## Usage
+
+### Running the Server
+
+Start the development server:
 ```bash
-python main.py --ticker AAPL --period 1y --interval 1d --out data\\AAPL_1y_1d.csv
+python api.py
 ```
-\n+Flags:
-- **--ticker**: symbol, e.g. `AAPL`
-- **--period**: range like `1mo`, `3mo`, `6mo`, `1y`, `5y`, `max` (default: `1y`)
-- **--interval**: `1d`, `1h`, `5m`, etc. (depends on period; default: `1d`)
-- **--adjusted**: use adjusted prices (dividends/splits applied)
-- **--out**: custom output path; defaults to `data/{TICKER}_{period}_{interval}.csv`
-\n+The CSV includes a `Ticker` column and `ReturnPct` computed from the `Close` price.
+
+The API will be available at `http://localhost:8000`
+
+Access the interactive API documentation at:
+- **Swagger UI**: `http://localhost:8000/docs`
+- **ReDoc**: `http://localhost:8000/redoc`
+
+### Testing Endpoints
+
+**Health Check:**
+```bash
+curl http://localhost:8000/health
+```
+
+**Calculate Sum:**
+```bash
+curl "http://localhost:8000/calculate/sum?a=10&b=20"
+```
+
+**Stock Information:**
+```bash
+curl "http://localhost:8000/stock/AAPL"
+```
+## Open Telemetry Setup
+### Windows
+```
+set OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED=true
+set OTEL_PYTHON_LOG_LEVEL=debug
+set PYTHONUNBUFFERED="1"
+opentelemetry-instrument --traces_exporter console --metrics_exporter console --logs_exporter console --service_name investor python api.py
+```
+## Dependencies
+
+- **fastapi** - Modern Python web framework for building APIs
+- **yfinance** - Yahoo Finance API wrapper for fetching stock data
+- **opentelemetry-distro** - Observability and monitoring
+
+See [requirements.txt](requirements.txt) for the complete list.
+
+## Planned Features
+
+Refer to [AGENTS.md](AGENTS.md) for documentation on planned AI agents including:
+- Stock Analysis Agent
+- Portfolio Management Agent
+- Market Intelligence Agent
+- Financial Reports Agent
+
+## Configuration
+
+Environment variables (optional):
+- `OPENAI_API_KEY` - For AI analysis features
+- `STOCK_DATA_CACHE_TTL` - Cache duration in seconds (default: 300)
+- `MAX_STOCKS_PER_QUERY` - Maximum stocks per request (default: 10)
+
+## Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Module import errors | Ensure virtual environment is activated and all dependencies are installed: `pip install -r requirements.txt` |
+| Port 8000 already in use | Change port in `api.py` or use: `python -m uvicorn api:app --port 8001` |
+| yfinance timeout | Check internet connection and verify ticker symbols are valid on Yahoo Finance |
+| Invalid ticker symbol | Verify the ticker exists on [Yahoo Finance](https://finance.yahoo.com) |
+
+## Development
+
+To use a different port:
+```bash
+python -m uvicorn api:app --port 8001 --reload
+```
+
+The `--reload` flag enables auto-restart when code changes are detected.
+
+## License
+
+See [LICENSE](LICENSE) file for details.
+
+## Next Steps
+
+- Implement caching for stock data to improve performance
+- Add request validation and error handling (400, 404, 500 status codes)
+- Implement rate limiting and authentication
+- Add async batch processing for multiple tickers
+- Set up database for historical data storage
+- Configure CORS for frontend integration
