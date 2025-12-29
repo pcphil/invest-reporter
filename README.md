@@ -89,13 +89,25 @@ curl "http://localhost:8000/calculate/sum?a=10&b=20"
 curl "http://localhost:8000/stock/AAPL"
 ```
 ## Open Telemetry Setup
-### Windows
+### Windows Local Tracing
 ```
 set OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED=true
 set OTEL_PYTHON_LOG_LEVEL=debug
 set PYTHONUNBUFFERED="1"
 opentelemetry-instrument --traces_exporter console --metrics_exporter console --logs_exporter console --service_name investor python api.py
 ```
+
+### Docker Compose Collection
+
+# From your-project/ directory
+docker compose -f otel-compose.yml up -d
+
+# Check logs
+docker compose -f otel-compose.yml logs -f otel-collector
+
+# Test connectivity to your API from container
+docker compose -f otel-compose.yml exec otel-collector curl http://host.docker.internal:8000/health
+
 ## Dependencies
 
 - **fastapi** - Modern Python web framework for building APIs

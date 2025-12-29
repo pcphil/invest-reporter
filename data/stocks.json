@@ -1,0 +1,38 @@
+{
+    "NVDA": {
+        "symbol": "NVDA",
+        "shortName": "NVIDIA Corporation",
+        "longName": "NVIDIA Corporation",
+        "currency": "USD",
+        "marketCap": 1234567890123,
+        "sector": "Technology",
+        "industry": "Semiconductors",
+        "website": "https://www.nvidia.com",
+        "description": "NVIDIA Corporation designs graphics processing units (GPUs) for the gaming and professional markets, as well as system on a chip units (SoCs) for the mobile computing and automotive market.",
+        "exchange": "NASDAQ"
+    },
+    "AMD": {
+        "symbol": "AMD",
+        "shortName": "Advanced Micro Devices, Inc.",
+        "longName": "Advanced Micro Devices, Inc.",
+        "currency": "USD",
+        "marketCap": 987654321012,
+        "sector": "Technology",
+        "industry": "Semiconductors",
+        "website": "https://www.amd.com",
+        "description": "Advanced Micro Devices, Inc. develops computer processors and related technologies for business and consumer markets.",
+        "exchange": "NASDAQ"
+    },
+    "MSFT": {
+        "symbol": "MSFT",
+        "shortName": "Microsoft Corporation",
+        "longName": "Microsoft Corporation",
+        "currency": "USD",
+        "marketCap": 2345678901234,
+        "sector": "Technology",
+        "industry": "Software—Infrastructure",
+        "website": "https://www.microsoft.com",
+        "description": "Microsoft Corporation develops, licenses, and supports software, services, devices, and solutions worldwide.",
+        "exchange": "NASDAQ"
+    }
+}
